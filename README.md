@@ -32,3 +32,63 @@ git merge xxx              # 合并分支（xxx为分支名）
 ```
 
 参考链接：[https://blog.csdn.net/bufegar0/article/details/109597640](https://blog.csdn.net/bufegar0/article/details/109597640)
+
+## 🧠 分支管理指南（适用于多人协作或功能开发）
+
+### ✅ 创建并切换到新分支
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+> 示例：创建一个用于开发玩家移动功能的分支  
+> `git checkout -b feature/player-move`
+
+---
+
+### ✅ 在新分支上进行开发和提交
+
+```bash
+git add .
+git commit -m "简要说明你修改的内容"
+```
+
+---
+
+### ✅ 将新分支推送到 GitHub
+
+```bash
+git push origin feature/your-feature-name
+```
+
+---
+
+### ✅ 在 GitHub 上发起 Pull Request
+
+1. 打开你的 GitHub 仓库
+2. 会看到提示 “Compare & pull request”，点击它
+3. 填写 PR 说明并提交
+
+---
+
+### ✅ 合并分支后（可选）删除本地和远程分支
+
+**本地删除：**
+
+```bash
+git branch -d feature/your-feature-name
+```
+
+**远程删除：**
+
+```bash
+git push origin --delete feature/your-feature-name
+```
+
+---
+
+### 📌 小贴士
+
+- 每个功能或修复一个分支，便于代码回滚和协作
+- 分支命名建议统一格式，如：`feature/xxx`、`fix/xxx`、`hotfix/xxx`
+- 如果多人同时开发，避免直接在 `main` 或 `master` 分支上改动
