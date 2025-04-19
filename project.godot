@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="CHDgame"
-run/main_scene="uid://bv5mwui4ls02d"
+run/main_scene="uid://qiq1iwc2w2ut"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1920
+window/size/window_height_override=1080
+window/stretch/mode="canvas_items"
 
 [input]
 
