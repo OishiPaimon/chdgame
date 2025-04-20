@@ -7,8 +7,8 @@ func _ready() -> void:
 	$CenterContainer/SettingsMenu/sfxvolslider.value=db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")))
 
 func _on_play_pressed() -> void:
-	var scene=load("res://Scenes/world.tscn")
-	get_tree().change_scene_to_packed(scene)
+	var scene="res://Scenes/world.tscn"
+	TransitionManagement.change_scene(scene);
 
 
 func _on_settings_pressed() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://qiq1iwc2w2ut"]
+[gd_scene load_steps=16 format=3 uid="uid://qiq1iwc2w2ut"]
 
 [ext_resource type="Script" uid="uid://2nu4rk6ipntq" path="res://Script/main_menu.gd" id="1_28flt"]
 [ext_resource type="FontFile" uid="uid://0rspm5fcwhw8" path="res://Assets/Fonts/PixelOperator8.ttf" id="2_48xlc"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://g7mf4k8odxsn" path="res://Assets/Background/Free Pixel Art Forest/Background layers/Layer_0004_Lights.png" id="8_m3bi6"]
 [ext_resource type="Texture2D" uid="uid://bpx1rphot5eyk" path="res://Assets/Background/Free Pixel Art Forest/Background layers/Layer_0001_8.png" id="9_m3bi6"]
 [ext_resource type="Texture2D" uid="uid://cn8ua0s24aska" path="res://Assets/Background/Free Pixel Art Forest/Background layers/Layer_0000_9.png" id="10_wyh8j"]
+[ext_resource type="Theme" uid="uid://cxruiif20pkg7" path="res://Themes/MainButtons.tres" id="14_8dnnj"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_28flt")
@@ -113,6 +114,7 @@ offset_bottom = 344.667
 
 [node name="MainButtons" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+theme = ExtResource("14_8dnnj")
 theme_override_constants/separation = 16
 
 [node name="play" type="Button" parent="CenterContainer/MainButtons"]
