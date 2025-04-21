@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://553drfkhpel3"]
+
+[ext_resource type="Texture2D" uid="uid://ddamy2ny4sv2f" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/2 Owlet_Monster/Owlet_Monster_Idle_4.png" id="1_nrmkc"]
+[ext_resource type="Script" uid="uid://bfj3qavxtkfux" path="res://Script/enemy.gd" id="2_nyqx2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nyqx2"]
+atlas = ExtResource("1_nrmkc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uy403"]
+atlas = ExtResource("1_nrmkc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7o7xc"]
+atlas = ExtResource("1_nrmkc")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkx1b"]
+atlas = ExtResource("1_nrmkc")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yb0yb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nyqx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uy403")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7o7xc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkx1b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ek22a"]
+radius = 11.0454
+
+[node name="Owlet_Monster" type="CharacterBody2D"]
+script = ExtResource("2_nyqx2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(530, 331)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_yb0yb")
+autoplay = "default"
+frame_progress = 0.166186
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(528, 338)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_ek22a")
