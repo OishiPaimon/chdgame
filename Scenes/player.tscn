@@ -2,11 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bp7fj8weot76d" path="res://Scenes/UI/status_panel.tscn" id="2_vgqql"]
 [ext_resource type="PackedScene" uid="uid://pngr2jjlvlvf" path="res://Scenes/UI/pause_screen.tscn" id="2_wpjfl"]
-[ext_resource type="Texture2D" uid="uid://jt5tpcfvwacd" path="res://Assets/Character/Soldier with shadows/Soldier.png" id="3_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://6ulp7hw2o8mx" path="res://Assets/Character/Soldier with shadows/Soldier.png" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://beagayevl7bir" path="res://Script/player.gd" id="21_5tmop"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wpjfl"]
-size = Vector2(18.25, 28)
 
 [sub_resource type="Animation" id="Animation_fkybt"]
 length = 0.001
@@ -181,6 +178,9 @@ _data = {
 &"running": SubResource("Animation_x3wgy")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vgqql"]
+radius = 14.0
+
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("21_5tmop")
 move_speed = 200.0
@@ -190,13 +190,14 @@ move_speed = 200.0
 [node name="StatusPanel" parent="CanvasLayer" instance=ExtResource("2_vgqql")]
 
 [node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("2_wpjfl")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(591, 326)
-shape = SubResource("RectangleShape2D_wpjfl")
+offset_left = -5.0
+offset_top = -1.0
+offset_right = -5.0
+offset_bottom = -1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(591, 332)
+position = Vector2(546, 299)
+scale = Vector2(2, 2)
 texture = ExtResource("3_6t5aa")
 hframes = 6
 region_enabled = true
@@ -206,3 +207,7 @@ region_rect = Rect2(0, 0, 600, 100)
 libraries = {
 &"": SubResource("AnimationLibrary_8erm5")
 }
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(549, 301)
+shape = SubResource("CircleShape2D_vgqql")

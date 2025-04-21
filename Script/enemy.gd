@@ -1,0 +1,17 @@
+extends CharacterBody2D
+
+@export var owlet_speed : float = -50
+# Called when the node enters the scene tree for the first time.
+
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta: float) -> void:
+	velocity.x = owlet_speed
+	move_and_slide()
+
+	# 左右翻转贴图
+	if velocity.x != 0:
+		$AnimatedSprite2D.flip_h = velocity.x < 0
