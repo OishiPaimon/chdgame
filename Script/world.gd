@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var camera_2d: Camera2D = $player/Camera2D
+var game_over_ui = preload("res://Scenes/GameOver.tscn").instantiate()
 
 func  _ready() -> void:
 	
@@ -18,3 +19,7 @@ func  _ready() -> void:
 	
 	#防止初始化抖动
 	camera_2d.reset_smoothing()
+
+func show_game_over():
+	add_child(game_over_ui)
+	get_tree().paused = true  # 可选：暂停游戏

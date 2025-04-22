@@ -157,11 +157,12 @@ texture = ExtResource("4_k7acu")
 centered = false
 
 [node name="player" parent="." instance=ExtResource("3_fo5ed")]
-position = Vector2(-538, -21)
+position = Vector2(-505, 2)
 
 [node name="Camera2D" type="Camera2D" parent="player"]
-position = Vector2(593, 333)
-zoom = Vector2(1.945, 1.945)
+position = Vector2(562, 236)
+scale = Vector2(-1153.48, 181718)
+zoom = Vector2(1.48, 1.48)
 limit_smoothed = true
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -170,4 +171,4 @@ drag_vertical_enabled = true
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Owlet_Monster" parent="Enemies" instance=ExtResource("7_o06y3")]
-position = Vector2(-320, -33)
+position = Vector2(-52, -33)
