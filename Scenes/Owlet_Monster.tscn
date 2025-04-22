@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://553drfkhpel3"]
+[gd_scene load_steps=10 format=3 uid="uid://553drfkhpel3"]
 
 [ext_resource type="Texture2D" uid="uid://ddamy2ny4sv2f" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/2 Owlet_Monster/Owlet_Monster_Idle_4.png" id="1_nrmkc"]
 [ext_resource type="Script" uid="uid://bfj3qavxtkfux" path="res://Script/enemy.gd" id="2_nyqx2"]
@@ -40,7 +40,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ek22a"]
-radius = 11.0454
+radius = 12.0185
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nyqx2"]
+radius = 248.032
 
 [node name="Owlet_Monster" type="CharacterBody2D"]
 script = ExtResource("2_nyqx2")
@@ -53,6 +56,22 @@ autoplay = "default"
 frame_progress = 0.166186
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(528, 338)
 scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_ek22a")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="DetectShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(528, 335)
+shape = SubResource("CircleShape2D_nyqx2")
+
+[node name="HitboxArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxArea"]
+position = Vector2(528, 338)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_ek22a")
+
+[connection signal="body_entered" from="HitboxArea" to="." method="_on_Owlet_Monster_body_entered"]
