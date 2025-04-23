@@ -24,3 +24,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	$Graphics/AnimatedSprite2D.flip_h = velocity.x < 0
+
+
+func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
+	hitbox.owner
+	queue_free()# Replace with function body.
