@@ -15,6 +15,7 @@ const GROUND_STATES:=[State.IDLE,State.RUNNING]
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var pause_screen: Control = $CanvasLayer/PauseScreen
 @onready var jump_request_timer: Timer = $JumpRequestTimer
+@onready var status: Status = $Status
 
 @export var move_speed : float = 50
 @export var jump_speed : float = -500
@@ -116,3 +117,9 @@ func transition_state(from:State,to:State)->void:
 				coyote_timer.start()
 	
 	is_first_tick=true;
+
+func die()->void:
+	get_tree().reload_current_scene()
+
+func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
+	pass # Replace with function body.

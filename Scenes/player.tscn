@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dh22n8vicod8y"]
+[gd_scene load_steps=18 format=3 uid="uid://dh22n8vicod8y"]
 
 [ext_resource type="PackedScene" uid="uid://bp7fj8weot76d" path="res://Scenes/UI/status_panel.tscn" id="2_vgqql"]
 [ext_resource type="PackedScene" uid="uid://pngr2jjlvlvf" path="res://Scenes/UI/pause_screen.tscn" id="2_wpjfl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bpv5td7ieoad3" path="res://Script/Class/StateMachine.gd" id="5_fkybt"]
 [ext_resource type="Script" uid="uid://bw3fud46okiy6" path="res://Script/Class/Hurtbox.gd" id="5_x3wgy"]
 [ext_resource type="Script" uid="uid://bsxu2i28lrtr6" path="res://Script/Class/Hitbox.gd" id="6_3smsa"]
+[ext_resource type="Script" uid="uid://bneyilm2taaav" path="res://Script/Class/Status.gd" id="8_8erm5"]
 [ext_resource type="Script" uid="uid://beagayevl7bir" path="res://Script/player.gd" id="21_5tmop"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
@@ -204,13 +205,15 @@ move_speed = 200.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="StatusPanel" parent="CanvasLayer" instance=ExtResource("2_vgqql")]
-
 [node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("2_wpjfl")]
 offset_left = -5.0
 offset_top = -1.0
 offset_right = -5.0
 offset_bottom = -1.0
+
+[node name="StatusPanel" parent="CanvasLayer" node_paths=PackedStringArray("status") instance=ExtResource("2_vgqql")]
+offset_right = 92.0
+status = NodePath("../../Status")
 
 [node name="Graphics" type="Node2D" parent="."]
 
@@ -218,9 +221,9 @@ offset_bottom = -1.0
 position = Vector2(546, 299)
 scale = Vector2(2, 2)
 texture = ExtResource("3_6t5aa")
-hframes = 8
+hframes = 2
 region_enabled = true
-region_rect = Rect2(0, 100, 800, 100)
+region_rect = Rect2(100, 300, 200, 100)
 
 [node name="Hurtbox" type="Area2D" parent="Graphics"]
 collision_layer = 8
@@ -262,3 +265,10 @@ one_shot = true
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("5_fkybt")
 metadata/_custom_type_script = "uid://bpv5td7ieoad3"
+
+[node name="Status" type="Node" parent="."]
+script = ExtResource("8_8erm5")
+max_health = 5
+metadata/_custom_type_script = "uid://bneyilm2taaav"
+
+[connection signal="hurt" from="Graphics/Hurtbox" to="." method="_on_hurtbox_hurt"]
