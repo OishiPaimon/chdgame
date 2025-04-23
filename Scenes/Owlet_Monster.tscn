@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://553drfkhpel3"]
+[gd_scene load_steps=15 format=3 uid="uid://553drfkhpel3"]
 
 [ext_resource type="Texture2D" uid="uid://6orwky2q8lve" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/2 Owlet_Monster/Owlet_Monster_Idle_4.png" id="1_nrmkc"]
+[ext_resource type="PackedScene" uid="uid://l6mmrsb6p8g8" path="res://Scenes/UI/enemy_status_panel.tscn" id="2_kkx1b"]
 [ext_resource type="Script" uid="uid://bfj3qavxtkfux" path="res://Script/enemy.gd" id="2_nyqx2"]
 [ext_resource type="Script" uid="uid://bsxu2i28lrtr6" path="res://Script/Class/Hitbox.gd" id="3_uy403"]
 [ext_resource type="Script" uid="uid://bw3fud46okiy6" path="res://Script/Class/Hurtbox.gd" id="4_7o7xc"]
@@ -97,3 +98,9 @@ visible = false
 [node name="DetectShape2D" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(528, 335)
 shape = SubResource("CircleShape2D_nyqx2")
+
+[node name="EnemyStatusPanel" parent="." instance=ExtResource("2_kkx1b")]
+offset_left = 483.0
+offset_top = 297.0
+offset_right = 561.0
+offset_bottom = 317.0
