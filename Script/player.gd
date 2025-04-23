@@ -23,9 +23,10 @@ const GROUND_STATES:=[State.IDLE,State.RUNNING]
 
 var default_gravity :=ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick :=false
+var normal_mask :int=(1<<0)|(1<<5)
+var pass_one_way_mask :int =(1<<0)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#velocity = Vector2(50,0)
 	pass
 
 func tick_physics(state:State,delta: float) -> void:
@@ -52,6 +53,10 @@ func move(gravity:float,delta:float)->void :
 	if not is_zero_approx(direction):
 		sprite_2d.flip_h=direction<0
 	
+	if Input.is_action_just_pressed("down"):
+		collision_mask=pass_one_way_mask
+		await get_tree().create_timer(0.1).timeout
+		collision_mask=normal_mask
 	move_and_slide()
 
 func  _unhandled_input(event: InputEvent) -> void:
@@ -60,8 +65,8 @@ func  _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
 		jump_request_timer.start()
 	#小跳	
-	#if event.is_action_released("jump") and velocity.y<jump_speed/2:
-		#velocity.y=jump_speed/2
+	if event.is_action_released("jump") and velocity.y<jump_speed/2:
+		velocity.y=jump_speed/2
 
 func get_next_state(state:State)->State:
 	var can_jump :=is_on_floor() or coyote_timer.time_left>0
