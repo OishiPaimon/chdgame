@@ -10,7 +10,7 @@ enum State
 
 const GROUND_STATES:=[State.IDLE,State.RUNNING]
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var pause_screen: Control = $CanvasLayer/PauseScreen
@@ -18,9 +18,6 @@ const GROUND_STATES:=[State.IDLE,State.RUNNING]
 
 @export var move_speed : float = 50
 @export var jump_speed : float = -500
-@export var floor_acceleration : float = move_speed/0.2
-@export var air_acceleration : float = move_speed/0.02
-
 
 var default_gravity :=ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick :=false
@@ -47,8 +44,7 @@ func tick_physics(state:State,delta: float) -> void:
 
 func move(gravity:float,delta:float)->void :	
 	var direction := Input.get_axis("left","right")
-	var acceleration :=floor_acceleration if is_on_floor() else air_acceleration
-	velocity.x=move_toward(velocity.x,direction* move_speed,acceleration*delta)
+	velocity.x=direction* move_speed
 	velocity.y+=gravity*delta
 	
 	if not is_zero_approx(direction):
