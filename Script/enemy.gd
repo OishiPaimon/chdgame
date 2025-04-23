@@ -23,9 +23,4 @@ func _physics_process(delta: float) -> void:
 		velocity.x = owlet_speed
 
 	move_and_slide()
-
-	$AnimatedSprite2D.flip_h = velocity.x < 0
-
-func _on_Owlet_Monster_body_entered(body):
-	if body.name == "player":
-		get_tree().current_scene.call("show_game_over")
+	$Graphics/AnimatedSprite2D.flip_h = velocity.x < 0
