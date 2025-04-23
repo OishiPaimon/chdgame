@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://dh22n8vicod8y"]
+[gd_scene load_steps=19 format=3 uid="uid://dh22n8vicod8y"]
 
 [ext_resource type="PackedScene" uid="uid://bp7fj8weot76d" path="res://Scenes/UI/status_panel.tscn" id="2_vgqql"]
 [ext_resource type="PackedScene" uid="uid://pngr2jjlvlvf" path="res://Scenes/UI/pause_screen.tscn" id="2_wpjfl"]
 [ext_resource type="Texture2D" uid="uid://jt5tpcfvwacd" path="res://Assets/Character/Soldier with shadows/Soldier.png" id="3_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://bwvtwb0jnaqct" path="res://Scenes/UI/game_over_screen.tscn" id="4_f1ek2"]
 [ext_resource type="Script" uid="uid://bpv5td7ieoad3" path="res://Script/Class/StateMachine.gd" id="5_fkybt"]
 [ext_resource type="Script" uid="uid://bw3fud46okiy6" path="res://Script/Class/Hurtbox.gd" id="5_x3wgy"]
 [ext_resource type="Script" uid="uid://bsxu2i28lrtr6" path="res://Script/Class/Hitbox.gd" id="6_3smsa"]
@@ -203,18 +204,6 @@ radius = 14.0
 script = ExtResource("21_5tmop")
 move_speed = 200.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("2_wpjfl")]
-offset_left = -5.0
-offset_top = -1.0
-offset_right = -5.0
-offset_bottom = -1.0
-
-[node name="StatusPanel" parent="CanvasLayer" node_paths=PackedStringArray("status") instance=ExtResource("2_vgqql")]
-offset_right = 92.0
-status = NodePath("../../Status")
-
 [node name="Graphics" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Graphics"]
@@ -270,5 +259,18 @@ metadata/_custom_type_script = "uid://bpv5td7ieoad3"
 script = ExtResource("8_8erm5")
 max_health = 5
 metadata/_custom_type_script = "uid://bneyilm2taaav"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("2_wpjfl")]
+metadata/_edit_lock_ = true
+
+[node name="StatusPanel" parent="CanvasLayer" node_paths=PackedStringArray("status") instance=ExtResource("2_vgqql")]
+offset_right = 92.0
+status = NodePath("../../Status")
+
+[node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource("4_f1ek2")]
+visible = false
+metadata/_edit_lock_ = true
 
 [connection signal="hurt" from="Graphics/Hurtbox" to="." method="_on_hurtbox_hurt"]
