@@ -7,7 +7,7 @@ extends HBoxContainer
 
 func _ready() -> void:
 	status.health_changed.connect(update_health)
-	update_health
+	update_health()
 
 func  update_health()->void:
 	var percentage :=status.health/float(status.max_health)
