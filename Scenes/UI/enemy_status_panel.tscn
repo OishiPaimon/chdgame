@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://l6mmrsb6p8g8"]
 
 [ext_resource type="Script" uid="uid://buje8yfxdvqon" path="res://Script/UI/enemy_status_panel.gd" id="1_6mtuo"]
-[ext_resource type="Texture2D" uid="uid://l66fknwcgo57" path="res://Assets/GUI/GUI.png" id="1_30377"]
-[ext_resource type="FontFile" uid="uid://0rspm5fcwhw8" path="res://Assets/Fonts/PixelOperator8.ttf" id="2_5prxb"]
+[ext_resource type="Texture2D" uid="uid://4jp13s8bsrax" path="res://Assets/GUI/GUI.png" id="1_30377"]
+[ext_resource type="FontFile" uid="uid://bej5avswu6hy8" path="res://Assets/Fonts/PixelOperator8.ttf" id="2_5prxb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gslfg"]
 texture = ExtResource("1_30377")
@@ -25,6 +25,13 @@ atlas = ExtResource("1_30377")
 region = Rect2(72, 22, 49, 3)
 
 [node name="EnemyStatusPanel" type="HBoxContainer"]
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.056
+offset_left = 562.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 1.84
 script = ExtResource("1_6mtuo")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

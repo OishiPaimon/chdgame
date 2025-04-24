@@ -1,15 +1,16 @@
-[gd_scene load_steps=12 format=4 uid="uid://bv5mwui4ls02d"]
+[gd_scene load_steps=13 format=4 uid="uid://bv5mwui4ls02d"]
 
-[ext_resource type="Script" uid="uid://ejvnpcrhht7k" path="res://Script/world.gd" id="1_5a7ea"]
-[ext_resource type="Texture2D" uid="uid://8kkui5rthvwl" path="res://Assets/Background/StringstarFields/background_0.png" id="2_5ukr8"]
-[ext_resource type="Texture2D" uid="uid://dudvsfqfhp0fh" path="res://Assets/Tileset/StringstarFields/tileset.png" id="2_8j60k"]
-[ext_resource type="PackedScene" uid="uid://dh22n8vicod8y" path="res://Scenes/player.tscn" id="3_fo5ed"]
-[ext_resource type="Texture2D" uid="uid://8vdf88ib4gkd" path="res://Assets/Background/StringstarFields/background_1.png" id="3_o06y3"]
-[ext_resource type="Texture2D" uid="uid://b5ppoilnt2hq3" path="res://Assets/Background/StringstarFields/background_2.png" id="4_k7acu"]
-[ext_resource type="PackedScene" uid="uid://553drfkhpel3" path="res://Scenes/Owlet_Monster.tscn" id="7_o06y3"]
+[ext_resource type="Script" uid="uid://ejvnpcrhht7k" path="res://Script/world.gd" id="1_5og3l"]
+[ext_resource type="Texture2D" uid="uid://bbmg34prr30qb" path="res://Assets/Tileset/StringstarFields/tileset.png" id="2_gbo1t"]
+[ext_resource type="Texture2D" uid="uid://cjjub5qrhj15k" path="res://Assets/Background/StringstarFields/background_0.png" id="3_544w4"]
+[ext_resource type="Texture2D" uid="uid://b0twxbw0xmsym" path="res://Assets/Background/StringstarFields/background_1.png" id="4_ji5dm"]
+[ext_resource type="Texture2D" uid="uid://b6ebrcm3v28ce" path="res://Assets/Background/StringstarFields/background_2.png" id="5_346uo"]
+[ext_resource type="PackedScene" uid="uid://dh22n8vicod8y" path="res://Scenes/Role/Player/player.tscn" id="6_rwqvv"]
+[ext_resource type="PackedScene" uid="uid://553drfkhpel3" path="res://Scenes/Role/Enemies/Owlet_Monster.tscn" id="7_midik"]
+[ext_resource type="PackedScene" uid="uid://criptqjn688d5" path="res://Scenes/UI/UIManager.tscn" id="8_gbo1t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5a7ea"]
-texture = ExtResource("2_8j60k")
+texture = ExtResource("2_gbo1t")
 0:2/size_in_atlas = Vector2i(3, 3)
 0:2/0 = 0
 11:0/size_in_atlas = Vector2i(7, 9)
@@ -29,7 +30,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_5a7ea")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5ukr8"]
-texture = ExtResource("2_8j60k")
+texture = ExtResource("2_gbo1t")
 8:6/0 = 0
 11:0/size_in_atlas = Vector2i(7, 9)
 11:0/0 = 0
@@ -123,7 +124,7 @@ sources/0 = SubResource("TileSetAtlasSource_5ukr8")
 
 [node name="World" type="Node2D"]
 position = Vector2(2, 0)
-script = ExtResource("1_5a7ea")
+script = ExtResource("1_5og3l")
 
 [node name="Geometry" type="TileMapLayer" parent="."]
 position = Vector2(4, 2)
@@ -143,7 +144,7 @@ motion_mirroring = Vector2(575, 0)
 
 [node name="Background0" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 scale = Vector2(2, 2)
-texture = ExtResource("2_5ukr8")
+texture = ExtResource("3_544w4")
 centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -152,7 +153,7 @@ motion_mirroring = Vector2(575, 0)
 
 [node name="Background1" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 scale = Vector2(2, 2)
-texture = ExtResource("3_o06y3")
+texture = ExtResource("4_ji5dm")
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -161,22 +162,27 @@ motion_mirroring = Vector2(575, 0)
 
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 scale = Vector2(2, 2)
-texture = ExtResource("4_k7acu")
+texture = ExtResource("5_346uo")
 centered = false
 
-[node name="player" parent="." instance=ExtResource("3_fo5ed")]
+[node name="player" parent="." instance=ExtResource("6_rwqvv")]
 position = Vector2(-505, 2)
 
 [node name="Camera2D" type="Camera2D" parent="player"]
-position = Vector2(562, 236)
-scale = Vector2(-1153.48, 181718)
-zoom = Vector2(1.685, 1.685)
+position = Vector2(595, 187)
+scale = Vector2(1, -35.714)
+zoom = Vector2(1.2, 1.2)
 limit_smoothed = true
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 drag_horizontal_enabled = true
-drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_right_margin = 0.1
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Owlet_Monster" parent="Enemies" instance=ExtResource("7_o06y3")]
+[node name="Owlet_Monster" parent="Enemies" instance=ExtResource("7_midik")]
 position = Vector2(-52, -33)
+
+[node name="UIManager" parent="." instance=ExtResource("8_gbo1t")]
+visible = false

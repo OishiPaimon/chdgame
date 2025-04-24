@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://criptqjn688d5"]
+
+[ext_resource type="Script" uid="uid://xbiainc2qek2" path="res://Script/UI/ui_manager.gd" id="1_jv8xy"]
+[ext_resource type="PackedScene" uid="uid://bwvtwb0jnaqct" path="res://Scenes/UI/game_over_screen.tscn" id="2_sr2kn"]
+[ext_resource type="PackedScene" uid="uid://pngr2jjlvlvf" path="res://Scenes/UI/pause_screen.tscn" id="3_a4yig"]
+[ext_resource type="PackedScene" uid="uid://bp7fj8weot76d" path="res://Scenes/UI/status_panel.tscn" id="4_t5yan"]
+
+[node name="UiManager" type="CanvasLayer"]
+script = ExtResource("1_jv8xy")
+
+[node name="GameOverScreen" parent="." instance=ExtResource("2_sr2kn")]
+metadata/_edit_lock_ = true
+
+[node name="PauseScreen" parent="." instance=ExtResource("3_a4yig")]
+metadata/_edit_lock_ = true
+
+[node name="StatusPanel" parent="." instance=ExtResource("4_t5yan")]
+offset_right = 92.0

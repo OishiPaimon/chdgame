@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4rrs6s5xbao"]
+
+[ext_resource type="Script" uid="uid://cwqth4hryrbjw" path="res://Script/Enemies/enemy.gd" id="1_w7o51"]
+[ext_resource type="Script" uid="uid://bpv5td7ieoad3" path="res://Script/Class/StateMachine.gd" id="2_ccjbd"]
+[ext_resource type="Script" uid="uid://bneyilm2taaav" path="res://Script/Class/Status.gd" id="3_5tguo"]
+[ext_resource type="PackedScene" uid="uid://l6mmrsb6p8g8" path="res://Scenes/UI/enemy_status_panel.tscn" id="4_txxrn"]
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_w7o51")
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphics"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_ccjbd")
+metadata/_custom_type_script = "uid://bpv5td7ieoad3"
+
+[node name="Status" type="Node" parent="."]
+script = ExtResource("3_5tguo")
+max_health = 10
+metadata/_custom_type_script = "uid://bneyilm2taaav"
+
+[node name="EnemyStatusPanel" parent="." node_paths=PackedStringArray("stats") instance=ExtResource("4_txxrn")]
+stats = NodePath("../Status")

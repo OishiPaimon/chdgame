@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgtdqkp0eces6"]
 
-[ext_resource type="Script" uid="uid://cefqpcgjva3ev" path="res://Script/transition_management.gd" id="1_h4vvo"]
+[ext_resource type="Script" uid="uid://cefqpcgjva3ev" path="res://Script/transition_management.gd" id="1_ykuoa"]
 
 [sub_resource type="Animation" id="Animation_85sh5"]
 resource_name = "Fade"
@@ -40,7 +40,7 @@ _data = {
 }
 
 [node name="TransitionManagement" type="CanvasLayer"]
-script = ExtResource("1_h4vvo")
+script = ExtResource("1_ykuoa")
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
