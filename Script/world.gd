@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var camera_2d: Camera2D = $player/Camera2D
+@onready var ui_manager = $UIManager
 
 func  _ready() -> void:
 	
@@ -10,7 +11,7 @@ func  _ready() -> void:
 	#一个图块像素大小
 	var tile_size :=tile_map_layer.tile_set.tile_size
 	
-	#set camera limit
+	#相机
 	camera_2d.limit_top=used.position.y*tile_size.y
 	camera_2d.limit_bottom=used.end.y*tile_size.y
 	camera_2d.limit_left=used.position.x*tile_size.x
@@ -18,3 +19,11 @@ func  _ready() -> void:
 	
 	#防止初始化抖动
 	camera_2d.reset_smoothing()
+	
+	#初始人物状态
+	$UIManager.init_status_panel($player/Status)
+
+#  调用暂停
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("puase"):
+		$UIManager.show_pause()

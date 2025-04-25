@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=4 format=3 uid="uid://cxruiif20pkg7"]
 
-[ext_resource type="Texture2D" uid="uid://l66fknwcgo57" path="res://Assets/GUI/GUI.png" id="1_llje7"]
-[ext_resource type="FontFile" uid="uid://0rspm5fcwhw8" path="res://Assets/Fonts/PixelOperator8.ttf" id="1_rkgsr"]
+[ext_resource type="Texture2D" uid="uid://4jp13s8bsrax" path="res://Assets/GUI/GUI.png" id="1_llje7"]
+[ext_resource type="FontFile" uid="uid://bej5avswu6hy8" path="res://Assets/Fonts/PixelOperator8.ttf" id="1_rkgsr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rooft"]
 texture = ExtResource("1_llje7")
