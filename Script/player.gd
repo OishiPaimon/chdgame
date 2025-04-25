@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 # 定义角色的状态枚举
@@ -71,8 +72,8 @@ func move(gravity: float, delta: float) -> void:
 
 # 输入事件处理函数（未被UI等捕获的输入）
 func _unhandled_input(event: InputEvent) -> void:
-	#if event.is_action_pressed("puase"):
-		#pause_screen.show_pause()
+	if event.is_action_pressed("puase"):
+		get_tree().current_scene.get_node("UIManager").show_pause()
 	if event.is_action_pressed("jump"):
 		jump_request_timer.start()
 	# 小跳：提前松开跳跃键时减小跳跃高度

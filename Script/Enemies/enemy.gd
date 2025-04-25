@@ -7,12 +7,12 @@ enum Direction
 	RIGHT=+1,
 }
 
-@export var direction := Direction.LEFT:
+@export var direction := Direction.RIGHT:
 	set(v):
 		direction=v
 		if not is_node_ready():
 			await ready
-		graphics.scale.x=-direction
+		graphics.scale.x=direction
 
 @export var max_spped : float =180
 @export var acceleration : float =2000
@@ -29,3 +29,6 @@ func move(speed:float,delta:float)->void:
 	velocity.y+=default_gravity*delta
 	
 	move_and_slide()
+
+func die()->void:
+	queue_free()
