@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=4 uid="uid://bv5mwui4ls02d"]
 
 [ext_resource type="Script" uid="uid://ejvnpcrhht7k" path="res://Script/world.gd" id="1_5og3l"]
-[ext_resource type="Texture2D" uid="uid://bbmg34prr30qb" path="res://Assets/Tileset/StringstarFields/tileset.png" id="2_gbo1t"]
-[ext_resource type="Texture2D" uid="uid://cjjub5qrhj15k" path="res://Assets/Background/StringstarFields/background_0.png" id="3_544w4"]
-[ext_resource type="Texture2D" uid="uid://b0twxbw0xmsym" path="res://Assets/Background/StringstarFields/background_1.png" id="4_ji5dm"]
-[ext_resource type="Texture2D" uid="uid://b6ebrcm3v28ce" path="res://Assets/Background/StringstarFields/background_2.png" id="5_346uo"]
+[ext_resource type="Texture2D" uid="uid://dudvsfqfhp0fh" path="res://Assets/Tileset/StringstarFields/tileset.png" id="2_gbo1t"]
+[ext_resource type="Texture2D" uid="uid://8kkui5rthvwl" path="res://Assets/Background/StringstarFields/background_0.png" id="3_544w4"]
+[ext_resource type="Texture2D" uid="uid://8vdf88ib4gkd" path="res://Assets/Background/StringstarFields/background_1.png" id="4_ji5dm"]
+[ext_resource type="Texture2D" uid="uid://b5ppoilnt2hq3" path="res://Assets/Background/StringstarFields/background_2.png" id="5_346uo"]
 [ext_resource type="PackedScene" uid="uid://dh22n8vicod8y" path="res://Scenes/Role/Player/player.tscn" id="6_rwqvv"]
-[ext_resource type="PackedScene" uid="uid://553drfkhpel3" path="res://Scenes/Role/Enemies/Owlet_Monster.tscn" id="7_midik"]
+[ext_resource type="PackedScene" uid="uid://chnhy0b7lboms" path="res://Scenes/Role/Enemies/pink_monster.tscn" id="7_gbo1t"]
 [ext_resource type="PackedScene" uid="uid://criptqjn688d5" path="res://Scenes/UI/UIManager.tscn" id="8_gbo1t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5a7ea"]
@@ -117,9 +117,9 @@ texture = ExtResource("2_gbo1t")
 
 [sub_resource type="TileSet" id="TileSet_o06y3"]
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 7
+physics_layer_0/collision_mask = 39
 physics_layer_1/collision_layer = 32
-physics_layer_1/collision_mask = 6
+physics_layer_1/collision_mask = 39
 sources/0 = SubResource("TileSetAtlasSource_5ukr8")
 
 [node name="World" type="Node2D"]
@@ -181,8 +181,10 @@ drag_right_margin = 0.1
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Owlet_Monster" parent="Enemies" instance=ExtResource("7_midik")]
-position = Vector2(-52, -33)
+[node name="PinkMonster" parent="Enemies" instance=ExtResource("7_gbo1t")]
+position = Vector2(584, 306)
+direction = 1
+max_spped = 180.0
+acceleration = 2000.0
 
 [node name="UIManager" parent="." instance=ExtResource("8_gbo1t")]
-visible = false
