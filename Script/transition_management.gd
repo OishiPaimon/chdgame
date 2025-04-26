@@ -6,11 +6,13 @@ func _ready() -> void:
 	self.hide()
 
 func change_scene(path):
+	var tree :=get_tree()
 	self.show()
 	self.set_layer(999)
 	animation.play("Fade")
 	await  animation.animation_finished
-	get_tree().change_scene_to_file(path)
+	tree.change_scene_to_file(path)
+	await tree.tree_changed
 	animation.play_backwards("Fade")
 	await  animation.animation_finished
 	self.set_layer(-1)

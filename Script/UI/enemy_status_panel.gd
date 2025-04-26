@@ -9,6 +9,11 @@ extends HBoxContainer
 func _ready() -> void:
 	stats.health_changed.connect(update_health)
 	update_health()
+	
+	tree_exited.connect(func():
+		stats.health_changed.disconnect(update_health)
+		
+	)
 
 func  update_health()->void:
 	var percentage :=stats.health/float(stats.max_health)

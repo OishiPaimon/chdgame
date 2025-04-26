@@ -13,11 +13,9 @@ func _ready():
 # 外部调用：显示 Game Over UI，并暂停游戏
 func show_game_over():
 	game_over_screen.show_game_over()
-	get_tree().paused = true
 
-# 信号回调：收到 Game Over 界面请求“重新开始游戏”
+# 信号回调：收到 Game Over 界面请求“重新开始游戏”d
 func _on_restart_requested():
-	get_tree().paused = false  # 恢复游戏运行
 	get_tree().change_scene_to_file("res://Scenes/UI/main_menu.tscn")  # 重新载入游戏场景
 
 # 暂停界面

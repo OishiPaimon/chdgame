@@ -15,11 +15,15 @@ enum State
 const KNOCKBACK_AMOUT:=512.0
 
 var pending_damage:Damage
+var should_attack :=false
 
 @onready var wall_checker: RayCast2D = $Graphics/WallChecker
 @onready var player_checker: RayCast2D = $Graphics/PlayerChecker
 @onready var floor_checker: RayCast2D = $Graphics/FloorChecker
 @onready var calm_down_timer: Timer = $CalmDownTimer
+@onready var attack_shape: CollisionShape2D = $Graphics/Hitbox/AttackShape
+@onready var hitbox: Hitbox = $Graphics/Hitbox
+
 
 func can_see_player()->bool:
 	if not player_checker.is_colliding():
@@ -49,6 +53,9 @@ func get_next_state(state:State)->State:
 	if pending_damage:
 		return State.HURT
 	
+	if should_attack:
+		return State.ATTACK_1
+	
 	match state:
 		State.IDLE:
 			#遇见玩家开始跑
@@ -71,6 +78,13 @@ func get_next_state(state:State)->State:
 			if not can_see_player() and calm_down_timer.is_stopped():
 				return State.WALK
 				
+		State.ATTACK_1:
+			if not animation_player.is_playing():
+				#判断是否还在攻击范围内（很蠢要改）
+				if hitbox.has_overlapping_areas():
+					return State.ATTACK_1
+				else:
+					return State.RUN
 		
 		State.HURT:
 			if not animation_player.is_playing():
@@ -98,6 +112,10 @@ func transition_state(from: State, to: State) -> void:
 		State.RUN:
 			animation_player.play("run")
 		
+		State.ATTACK_1:
+			animation_player.play("attack1")
+			should_attack=false
+		
 		State.HURT:
 			animation_player.play("hit")
 			
@@ -109,9 +127,9 @@ func transition_state(from: State, to: State) -> void:
 			
 			#被偷袭后转身
 			if dir.x>0:
-				direction=Direction.RIGHT
-			else:
 				direction=Direction.LEFT
+			else:
+				direction=Direction.RIGHT
 			
 			pending_damage=null
 		
@@ -123,3 +141,8 @@ func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
 	pending_damage=Damage.new()
 	pending_damage.amount=1
 	pending_damage.source=hitbox.owner
+
+
+func _on_hitbox_hit(hurtbox: Hurtbox) -> void:
+	if hurtbox.owner is Player:
+		should_attack=true

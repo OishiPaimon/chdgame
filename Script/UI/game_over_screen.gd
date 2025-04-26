@@ -14,11 +14,11 @@ func _ready() -> void:
 # 处理输入事件（如按键、鼠标点击、手柄按钮）
 func _input(event: InputEvent) -> void:
 	get_window().set_input_as_handled()  # 阻止事件向下传播
-
+	
 	# 如果动画播放中，不接受操作
 	if animation_player.is_playing():
 		return
-
+	
 	# 判断是否是有效的“确认”类输入事件
 	if (
 		event is InputEventKey or 

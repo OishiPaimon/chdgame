@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://chnhy0b7lboms"]
+[gd_scene load_steps=23 format=3 uid="uid://chnhy0b7lboms"]
 
 [ext_resource type="PackedScene" uid="uid://b4rrs6s5xbao" path="res://Scenes/Role/Enemies/enemy.tscn" id="1_5nmmo"]
 [ext_resource type="Script" uid="uid://c7kmoa2ocdg81" path="res://Scenes/Role/Enemies/pink_monster.gd" id="2_qhu4r"]
@@ -16,11 +16,15 @@ size = Vector2(15.5, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhu4r"]
 size = Vector2(15.5, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_47401"]
+size = Vector2(20, 28)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gp8c0"]
 size = Vector2(17, 28)
 
 [sub_resource type="Animation" id="Animation_4qtui"]
 length = 0.001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -67,7 +71,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -79,7 +83,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -93,11 +97,22 @@ tracks/5/keys = {
 "update": 0,
 "values": [Vector2(8, 6)]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Graphics/Hurtbox:monitorable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_a5ygl"]
 resource_name = "attack1"
 length = 0.4
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -151,7 +166,6 @@ tracks/3/keys = {
 [sub_resource type="Animation" id="Animation_8s3lg"]
 resource_name = "attack2"
 length = 0.6
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -267,6 +281,18 @@ tracks/3/keys = {
 "args": [],
 "method": &"die"
 }]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Graphics/Hurtbox:monitorable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_a0t6x"]
@@ -469,23 +495,18 @@ position = Vector2(5, 15)
 target_position = Vector2(0, 5)
 
 [node name="AttackShape" type="CollisionShape2D" parent="Graphics/Hitbox" index="0"]
-visible = false
 position = Vector2(8, 6)
 shape = SubResource("RectangleShape2D_ssrks")
-disabled = true
 
 [node name="AttackShape2" type="CollisionShape2D" parent="Graphics/Hitbox" index="1"]
 position = Vector2(8, 6)
 shape = SubResource("RectangleShape2D_qhu4r")
-disabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Graphics/Hurtbox" index="0"]
-visible = false
-position = Vector2(-0.5, 2)
-shape = SubResource("RectangleShape2D_ssrks")
+position = Vector2(-2, 2)
+shape = SubResource("RectangleShape2D_47401")
 
 [node name="CollisionShape2D" parent="." index="1"]
-visible = false
 position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_gp8c0")
 
@@ -501,4 +522,5 @@ max_health = 3
 wait_time = 2.5
 one_shot = true
 
+[connection signal="hit" from="Graphics/Hitbox" to="." method="_on_hitbox_hit"]
 [connection signal="hurt" from="Graphics/Hurtbox" to="." method="_on_hurtbox_hurt"]
