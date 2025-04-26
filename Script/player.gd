@@ -23,6 +23,7 @@ const KNOCKBACK_AMOUT:=512.0
 @onready var coyote_timer: Timer = $CoyoteTimer                     # 土狼时间计时器
 @onready var jump_request_timer: Timer = $JumpRequestTimer         # 跳跃请求缓冲计时器
 @onready var status: Status = $Status                              # 状态控制器（自定义类）
+@onready var marker_2d: Marker2D = $Graphics/Marker2D
 
 # 可导出变量：移动速度与跳跃速度
 @export var move_speed: float = 50
@@ -31,6 +32,7 @@ const KNOCKBACK_AMOUT:=512.0
 #是否可以连击
 @export var can_combo:= false
 
+@export var ability :PackedScene
 # 获取默认重力设置
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 # 标记是否为状态切换后的第一帧
@@ -105,6 +107,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	# 小跳：提前松开跳跃键时减小跳跃高度
 	if event.is_action_released("jump") and velocity.y < jump_speed / 2:
 		velocity.y = jump_speed / 2
+	
+	#测试法球代码
+	if event.is_action_pressed("magic"):
+		var instance=ability.instantiate()
+		var direction := Input.get_axis("left", "right")
+		instance.direction=direction;
+		get_parent().add_child(instance)
+		instance.global_position=marker_2d.global_position;
 	
 	if event.is_action_pressed("attack")and can_combo:
 		is_combo_requester=true

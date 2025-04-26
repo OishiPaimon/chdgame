@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://q4lgea20mpig"]
+
+[ext_resource type="Script" uid="uid://crln38i1xv7l0" path="res://Script/Ability/magic_missile.gd" id="1_5cvdj"]
+[ext_resource type="Script" uid="uid://bsxu2i28lrtr6" path="res://Script/Class/Hitbox.gd" id="1_7687q"]
+[ext_resource type="Script" uid="uid://bpv5td7ieoad3" path="res://Script/Class/StateMachine.gd" id="3_slnvp"]
+
+[node name="magic_missile" type="Node2D"]
+script = ExtResource("1_5cvdj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("1_7687q")
+metadata/_custom_type_script = "uid://bsxu2i28lrtr6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_slnvp")
+metadata/_custom_type_script = "uid://bpv5td7ieoad3"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
