@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://chnhy0b7lboms"]
 
 [ext_resource type="PackedScene" uid="uid://b4rrs6s5xbao" path="res://Scenes/Role/Enemies/enemy.tscn" id="1_5nmmo"]
-[ext_resource type="Script" uid="uid://c7kmoa2ocdg81" path="res://Scenes/Role/Enemies/pink_monster.gd" id="2_qhu4r"]
+[ext_resource type="Script" uid="uid://c7kmoa2ocdg81" path="res://Script/Enemies/pink_monster.gd" id="2_qhu4r"]
 [ext_resource type="Texture2D" uid="uid://bybg0txvqkjb5" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_ssrks"]
 [ext_resource type="Texture2D" uid="uid://b3ny33nm5dunq" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Run_6.png" id="3_qhu4r"]
 [ext_resource type="Texture2D" uid="uid://cpmwgrvi483p6" path="res://Assets/Character/free-pixel-art-tiny-hero-sprites/1 Pink_Monster/Pink_Monster_Walk_6.png" id="4_47401"]
@@ -517,6 +517,9 @@ libraries = {
 
 [node name="Status" parent="." index="4"]
 max_health = 3
+
+[node name="EnemyStatusPanel" parent="." index="5" node_paths=PackedStringArray("stats")]
+stats = NodePath("../Status")
 
 [node name="CalmDownTimer" type="Timer" parent="." index="6"]
 wait_time = 2.5

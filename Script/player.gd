@@ -31,7 +31,7 @@ const KNOCKBACK_AMOUT:=512.0
 
 #是否可以连击
 @export var can_combo:= false
-
+@export var mp_regen: int = 1 
 @export var ability :PackedScene
 # 获取默认重力设置
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
@@ -48,10 +48,18 @@ var normal_mask: int = (1 << 0) | (1 << 5)
 # 一次性平台穿透掩码（只与图层0碰撞）
 var pass_one_way_mask: int = (1 << 0)
 
+var _mp_regen_timer := 0.0
 # 初始化函数，节点首次进入场景树时调用
 func _ready() -> void:
 	pass
-
+	
+func _process(delta: float) -> void:
+	_mp_regen_timer += delta
+	if _mp_regen_timer >= 1.0:
+		_mp_regen_timer -= 1.0
+		if status.mp <  status.max_mp:
+			status.mp += mp_regen
+			
 # 每帧更新物理行为，根据当前状态调用对应的逻辑
 func tick_physics(state: State, delta: float) -> void:
 	match state:
@@ -108,13 +116,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("jump") and velocity.y < jump_speed / 2:
 		velocity.y = jump_speed / 2
 	
-	#测试法球代码
+	#测试法球代码只能跑着打
 	if event.is_action_pressed("magic"):
-		var instance=ability.instantiate()
-		var direction := Input.get_axis("left", "right")
-		instance.direction=direction;
-		get_parent().add_child(instance)
-		instance.global_position=marker_2d.global_position;
+		if status.mp >= 30:
+			status.mp -= 30
+			var instance=ability.instantiate()
+			var direction := Input.get_axis("left", "right")
+			instance.direction=direction;
+			get_parent().add_child(instance)
+			instance.global_position=marker_2d.global_position;
 	
 	if event.is_action_pressed("attack")and can_combo:
 		is_combo_requester=true
