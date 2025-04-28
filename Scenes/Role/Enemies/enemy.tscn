@@ -42,9 +42,8 @@ script = ExtResource("3_5tguo")
 max_health = 10
 metadata/_custom_type_script = "uid://bneyilm2taaav"
 
-[node name="EnemyStatusPanel" parent="." node_paths=PackedStringArray("stats") instance=ExtResource("4_txxrn")]
+[node name="EnemyStatusPanel" parent="." instance=ExtResource("4_txxrn")]
 offset_left = -37.0
 offset_top = -25.0
 offset_right = 37.0
 offset_bottom = -5.0
-stats = NodePath("../Status")

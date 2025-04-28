@@ -464,7 +464,7 @@ shape = SubResource("RectangleShape2D_1d6rm")
 disabled = true
 
 [node name="Marker2D" type="Marker2D" parent="Graphics"]
-position = Vector2(560, 297)
+position = Vector2(560, 300)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 deterministic = true
