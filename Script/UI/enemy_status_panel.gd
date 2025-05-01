@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 
-@export var stats:Status
+@export var stats:CharacterStatus
 
 @onready var health_bar: TextureProgressBar = $HealthBar
 @onready var real_health_bar: TextureProgressBar = $HealthBar/RealHealthBar

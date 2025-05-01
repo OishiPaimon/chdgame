@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-@export var status: Status
+@export var status: CharacterStatus
 
 @onready var health_bar: TextureProgressBar = $VBoxContainer/HealthBar
 @onready var real_heath_bar: TextureProgressBar = $VBoxContainer/HealthBar/RealHeathBar

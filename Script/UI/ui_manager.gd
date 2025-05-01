@@ -23,6 +23,6 @@ func show_pause():
 	pause_screen.show_pause()
 
 # 数值化血条
-func init_status_panel(status_data: Status):
+func init_status_panel(status_data: CharacterStatus):
 	$StatusPanel.status = status_data
 	$StatusPanel.init()

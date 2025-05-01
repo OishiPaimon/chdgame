@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4rrs6s5xbao"]
+
+[ext_resource type="Script" uid="uid://cwqth4hryrbjw" path="res://Script/Characters/Enemies/enemy.gd" id="1_w7o51"]
+[ext_resource type="Script" uid="uid://bsxu2i28lrtr6" path="res://Script/Class/Hitbox.gd" id="2_5tguo"]
+[ext_resource type="Script" uid="uid://bneyilm2taaav" path="res://Script/Class/Status.gd" id="3_5tguo"]
+[ext_resource type="Script" uid="uid://bw3fud46okiy6" path="res://Script/Class/Hurtbox.gd" id="3_txxrn"]
+[ext_resource type="PackedScene" uid="uid://l6mmrsb6p8g8" path="res://Scenes/UI/enemy_status_panel.tscn" id="4_txxrn"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_rmt0q"]
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 35
+script = ExtResource("1_w7o51")
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphics"]
+
+[node name="Hitbox" type="Area2D" parent="Graphics"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_5tguo")
+metadata/_custom_type_script = "uid://bsxu2i28lrtr6"
+
+[node name="Hurtbox" type="Area2D" parent="Graphics"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_txxrn")
+metadata/_custom_type_script = "uid://bw3fud46okiy6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+deterministic = true
+
+[node name="CharacterStatus" type="Node" parent="."]
+script = ExtResource("3_5tguo")
+max_health = 10
+metadata/_custom_type_script = "uid://bneyilm2taaav"
+
+[node name="EnemyStatusPanel" parent="." node_paths=PackedStringArray("stats") instance=ExtResource("4_txxrn")]
+offset_left = -37.0
+offset_top = -25.0
+offset_right = 37.0
+offset_bottom = -5.0
+stats = NodePath("../CharacterStatus")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+blackboard_plan = SubResource("BlackboardPlan_rmt0q")
