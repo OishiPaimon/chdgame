@@ -1,4 +1,4 @@
-class_name Status
+class_name CharacterStatus
 extends Node
 
 signal health_changed
