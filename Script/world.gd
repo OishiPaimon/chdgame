@@ -3,6 +3,9 @@ extends Node2D
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var camera_2d: Camera2D = $player/Camera2D
 @onready var ui_manager = $UIManager
+@onready var monster_spawn_manager: MonsterSpawnManager = $MonsterSpawnManager
+
+@export var spawn_config: SceneSpawnConfig
 
 func  _ready() -> void:
 	
@@ -22,7 +25,25 @@ func  _ready() -> void:
 	
 	#初始人物状态
 	$UIManager.init_status_panel($player/Status)
+	
+		# 初始化生成点组
+	var spawn_groups = {
+		"group1": $SpawnPoints/Group1.get_children(),
+		"group2": $SpawnPoints/Group2.get_children()
+	}
+	monster_spawn_manager.init_spawn_groups(spawn_groups)
+	
+	# 设置生成配置
+	if spawn_config:
+		monster_spawn_manager.set_spawn_config(spawn_config.spawn_groups)
+	
+	# 生成怪物
+	spawn_monsters()
 
+func spawn_monsters() -> void:
+	for group_name in monster_spawn_manager.spawn_point_groups:
+		monster_spawn_manager.spawn_in_group(group_name)
+	
 #  调用暂停
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("puase"):

@@ -1,31 +1,52 @@
-extends CharacterBody2D
+extends Enemy
 
-@export var owlet_speed : float = -0
-@export var rush_speed : float = -200  # 加速速度
-var player_in_range := false
+const KNOCKBACK_AMOUT:=512.0
 
-func _ready() -> void:
-	$DetectionArea.body_entered.connect(_on_DetectionArea_body_entered)
-	$DetectionArea.body_exited.connect(_on_DetectionArea_body_exited)
+var pending_damage:Damage
 
-func _on_DetectionArea_body_entered(body):
-	if body.name == "player":
-		player_in_range = true
+@onready var wall_checker: RayCast2D = $Graphics/WallChecker
+@onready var player_checker: RayCast2D = $Graphics/PlayerChecker
+@onready var floor_checker: RayCast2D = $Graphics/FloorChecker
+@onready var calm_down_timer: Timer = $CalmDownTimer
+@onready var attack_shape: CollisionShape2D = $Graphics/Hitbox/AttackShape
+@onready var hitbox: Hitbox = $Graphics/Hitbox
+@onready var bt_player: BTPlayer = $BTPlayer
 
-func _on_DetectionArea_body_exited(body):
-	if body.name == "player":
-		player_in_range = false
+# 检查是否可以看到玩家
+func can_see_player() -> bool:
+	if not player_checker.is_colliding():
+		return false
+	return player_checker.get_collider() is Player
 
-func _physics_process(delta: float) -> void:
-	if player_in_range:
-		velocity.x = rush_speed
+# 移动逻辑
+func move_with_speed(speed: float, delta: float) -> void:
+	move(speed, delta)
+
+# 处理受伤
+func handle_hurt() -> void:
+	if not pending_damage:
+		return
+		
+	status.health -= pending_damage.amount
+	
+	# 击退
+	var dir := pending_damage.source.global_position.direction_to(global_position)
+	velocity = dir * KNOCKBACK_AMOUT
+	
+	# 被偷袭后转身
+	if dir.x > 0:
+		direction = Direction.LEFT
 	else:
-		velocity.x = owlet_speed
+		direction = Direction.RIGHT
+	
+	pending_damage = null
 
-	move_and_slide()
-	$Graphics/AnimatedSprite2D.flip_h = velocity.x < 0
+func _on_hitbox_hit(hurtbox: Hurtbox) -> void:
+	if hurtbox.owner is Player:
+		bt_player.blackboard.set_var("should_attack", true)
 
-
+# 信号处理
 func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
-	hitbox.owner
-	queue_free()# Replace with function body.
+	pending_damage = Damage.new()
+	pending_damage.amount = 1
+	pending_damage.source = hitbox.owner
