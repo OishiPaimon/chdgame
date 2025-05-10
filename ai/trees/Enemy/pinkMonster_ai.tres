@@ -1,8 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=48 format=3 uid="uid://bdtrk3wp8oqx4"]
+[gd_resource type="BehaviorTree" load_steps=51 format=3 uid="uid://bdtrk3wp8oqx4"]
 
 [ext_resource type="Script" uid="uid://rksdlrs8s6ux" path="res://ai/tasks/is_dead.gd" id="1_p48vd"]
 [ext_resource type="Script" uid="uid://h08ycokxlxpa" path="res://ai/tasks/is_hurt.gd" id="3_ayuin"]
 [ext_resource type="Script" uid="uid://bic0x378ovh80" path="res://ai/tasks/handle_hurt.gd" id="3_v5e4c"]
+[ext_resource type="Script" uid="uid://cm06b1262w7bx" path="res://ai/tasks/fall.gd" id="7_6e82p"]
 [ext_resource type="Script" uid="uid://pf0jjuk2oi6e" path="res://ai/tasks/in_attack_range.gd" id="7_6vn3n"]
 [ext_resource type="Script" uid="uid://bxore3apepkdy" path="res://ai/tasks/check_floor.gd" id="7_b3v8q"]
 [ext_resource type="Script" uid="uid://p8cgjnwyygs3" path="res://ai/tasks/can_see_player.gd" id="8_2ankf"]
@@ -112,6 +113,13 @@ script = ExtResource("10_4ci1e")
 custom_name = "RunState"
 children = [SubResource("BTCondition_h62di"), SubResource("BTPlayAnimation_sduae"), SubResource("BTAction_lyskv")]
 
+[sub_resource type="BTAction" id="BTAction_qhha6"]
+script = ExtResource("7_6e82p")
+
+[sub_resource type="BTSequence" id="BTSequence_6w2pc"]
+custom_name = "FallState"
+children = [SubResource("BTAction_qhha6")]
+
 [sub_resource type="BTAction" id="BTAction_6e82p"]
 script = ExtResource("7_b3v8q")
 
@@ -150,7 +158,7 @@ children = [SubResource("BTPlayAnimation_4nawc"), SubResource("BTWait_sduae"), S
 
 [sub_resource type="BTSelector" id="BTSelector_2ankf"]
 custom_name = "WalkorIdle"
-children = [SubResource("BTSequence_lvjag"), SubResource("BTSequence_u0akw"), SubResource("BTSequence_6vn3n")]
+children = [SubResource("BTSequence_lvjag"), SubResource("BTSequence_6w2pc"), SubResource("BTSequence_u0akw"), SubResource("BTSequence_6vn3n")]
 
 [sub_resource type="BTSelector" id="BTSelector_xy7wa"]
 custom_name = "AttackOrPatrol"

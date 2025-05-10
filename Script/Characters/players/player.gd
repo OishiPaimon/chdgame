@@ -17,13 +17,28 @@ enum State
 const GROUND_STATES := [State.IDLE, State.RUNNING,State.ATTACK_1, State.HURT, State.DYING]
 #被击退
 const KNOCKBACK_AMOUT:=512.0
+
+enum Direction
+{
+	LEFT=-1,
+	RIGHT=+1,
+}
+
+@export var direction := Direction.RIGHT:
+	set(v):
+		direction=v
+		if not is_node_ready():
+			await ready
+		graphics.scale.x=direction
+
 # 绑定场景中的节点（按需加载）
-@onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
+@onready var graphics: Node2D = $Graphics
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var coyote_timer: Timer = $CoyoteTimer                     # 土狼时间计时器
 @onready var jump_request_timer: Timer = $JumpRequestTimer         # 跳跃请求缓冲计时器
 @onready var status: CharacterStatus = $Status                              # 状态控制器（自定义类）
 @onready var marker_2d: Marker2D = $Graphics/Marker2D
+@onready var damage_manager: Node = $DamageManager
 
 # 可导出变量：移动速度与跳跃速度
 @export var move_speed: float = 50
@@ -38,8 +53,6 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 # 标记是否为状态切换后的第一帧
 var is_first_tick := false
 
-#所受伤害
-var pending_damage:Damage
 #是否连击
 var is_combo_requester :=false
 
@@ -49,6 +62,13 @@ var normal_mask: int = (1 << 0) | (1 << 5)
 var pass_one_way_mask: int = (1 << 0)
 
 var _mp_regen_timer := 0.0
+
+# 添加滑步相关变量
+var slide_speed: float = 1  # 滑步速度
+var slide_deceleration: float =-10  # 滑步减速度
+var is_sliding: bool = false
+var slide_direction: float = 0.0
+
 # 初始化函数，节点首次进入场景树时调用
 func _ready() -> void:
 	pass
@@ -76,7 +96,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(default_gravity, delta)
 		
 		State.ATTACK_1:
-			stand(default_gravity,delta)
+			move(default_gravity,delta)
 		
 		State.HURT,State.DYING:
 			stand(default_gravity,delta)
@@ -85,14 +105,24 @@ func tick_physics(state: State, delta: float) -> void:
 
 # 移动逻辑处理函数，处理左右移动、重力、平台穿透等
 func move(gravity: float, delta: float) -> void:
-	var direction := Input.get_axis("left", "right")
-	velocity.x = direction * move_speed
+	var input_direction := Input.get_axis("left", "right")
+	
+	# 如果正在滑步，使用滑步速度
+	if is_sliding:
+		velocity.x = move_toward(velocity.x, 0.0, slide_deceleration * delta)
+		# 当速度接近0时结束滑步
+		is_sliding = false
+	else:
+		velocity.x = input_direction * move_speed
+	
 	velocity.y += gravity * delta
 	
-	if not is_zero_approx(direction):
-		sprite_2d.flip_h = direction < 0  # 左右翻转角色朝向
+	if input_direction > 0:
+		direction = Direction.RIGHT
+	elif not is_zero_approx(input_direction):
+		direction = Direction.LEFT
 	
-	# 向下按键触发一次性穿透平台
+	# 平台穿透
 	if Input.is_action_just_pressed("down"):
 		collision_mask = pass_one_way_mask
 		await get_tree().create_timer(0.1).timeout
@@ -116,12 +146,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("jump") and velocity.y < jump_speed / 2:
 		velocity.y = jump_speed / 2
 	
-	#测试法球代码只能跑着打
+	#测试法球代码
 	if event.is_action_pressed("magic"):
 		if status.mp >= 30:
 			status.mp -= 30
 			var instance=ability.instantiate()
-			var direction := Input.get_axis("left", "right")
 			instance.direction=direction;
 			get_parent().add_child(instance)
 			instance.global_position=marker_2d.global_position;
@@ -135,7 +164,7 @@ func get_next_state(state: State) -> State:
 	if status.health==0:
 		return State.DYING
 	
-	if pending_damage:
+	if not damage_manager.pending_damages.is_empty():
 		return State.HURT
 	
 	var can_jump := is_on_floor() or coyote_timer.time_left > 0
@@ -147,8 +176,8 @@ func get_next_state(state: State) -> State:
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
 		
-	var direction := Input.get_axis("left", "right")
-	var is_still := is_zero_approx(direction) and is_zero_approx(velocity.x)
+	var input_direction := Input.get_axis("left", "right")
+	var is_still := is_zero_approx(input_direction) and is_zero_approx(velocity.x)
 	
 	match state:
 		State.IDLE:
@@ -215,21 +244,23 @@ func transition_state(from: State, to: State) -> void:
 				coyote_timer.start()
 		
 		State.ATTACK_1:
+			# 开始滑步
+			is_sliding = true
+			slide_direction = direction
+			# 播放攻击动画
 			animation_player.play("attack1")
 			is_combo_requester=false
 		
 		State.HURT:
 			animation_player.play("hit")
-			
-			status.health-=pending_damage.amount
-			
+			var damages = damage_manager.get_all_damages()
+			# 计算总伤害
+			var total_damage := 0
+			for damage in damages:
+				total_damage += damage.amount
+			status.health -= total_damage
 			#击退
-			var dir :=pending_damage.source.global_position.direction_to(global_position)
 			
-			velocity=dir*KNOCKBACK_AMOUT
-			
-			pending_damage=null
-		
 		State.DYING:
 			animation_player.play("die")
 	
@@ -241,7 +272,7 @@ func die() -> void:
 
 # 被敌人攻击的处理函数
 func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
-	#多个伤害来源需要修改为数组或者混合到一起
-	pending_damage=Damage.new()
-	pending_damage.amount=1
-	pending_damage.source=hitbox.owner
+	var damage = Damage.new()
+	damage.amount = 1
+	damage.source = hitbox.owner
+	damage_manager.add_damage(damage)

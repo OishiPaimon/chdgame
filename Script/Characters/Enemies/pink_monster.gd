@@ -30,16 +30,16 @@ func handle_hurt() -> void:
 	status.health -= pending_damage.amount
 	
 	# 击退
-	var dir := pending_damage.source.global_position.direction_to(global_position)
-	velocity = dir * KNOCKBACK_AMOUT
+	if pending_damage.source:
+		var dir := pending_damage.source.global_position.direction_to(global_position)
+		velocity = dir * KNOCKBACK_AMOUT
+		# 被偷袭后转身
+		if dir.x > 0:
+			direction = Direction.LEFT
+		else:
+			direction = Direction.RIGHT
 	
-	move_and_slide()
-	
-	# 被偷袭后转身
-	if dir.x > 0:
-		direction = Direction.LEFT
-	else:
-		direction = Direction.RIGHT
+
 	
 	pending_damage = null
 
@@ -48,7 +48,7 @@ func _on_hitbox_hit(hurtbox: Hurtbox) -> void:
 		bt_player.blackboard.set_var("should_attack", true)
 
 # 信号处理
-func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
+func _on_hurtbox_hurt(playerHitbox: Hitbox) -> void:
 	pending_damage = Damage.new()
 	pending_damage.amount = 1
-	pending_damage.source = hitbox.owner
+	pending_damage.source = playerHitbox.owner

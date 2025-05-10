@@ -46,7 +46,7 @@ func _on_hitbox_hit(hurtbox: Hurtbox) -> void:
 		bt_player.blackboard.set_var("should_attack", true)
 
 # 信号处理
-func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
+func _on_hurtbox_hurt(playerHitbox: Hitbox) -> void:
 	pending_damage = Damage.new()
 	pending_damage.amount = 1
-	pending_damage.source = hitbox.owner
+	pending_damage.source = playerHitbox.owner
