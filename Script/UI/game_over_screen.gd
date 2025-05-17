@@ -1,7 +1,7 @@
 extends Control
 
 # 发出重启请求的信号，由 UIManager 或 GameManager 响应处理
-signal restart_requested
+#signal restart_requested
 
 # 获取动画播放器节点
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -27,7 +27,8 @@ func _input(event: InputEvent) -> void:
 	):
 		if event.is_pressed() and not event.is_echo():
 			# 发出重启请求信号（不直接处理跳转）
-			emit_signal("restart_requested")
+			#emit_signal("restart_requested")
+			TransitionManagement.new_game()
 
 # 外部调用此方法以展示 Game Over UI
 func show_game_over() -> void:

@@ -39,3 +39,15 @@ func add_exp(amount: int):
 		exp = 0
 		# 升级逻辑
 		
+
+func  to_dic()->Dictionary:
+	return {
+		max_health=max_health,
+		max_mp=max_mp,
+		health=health,
+	}
+
+func from_dict(dict:Dictionary)->void:
+	max_mp=dict.max_mp
+	max_health=dict.max_health
+	health=dict.health

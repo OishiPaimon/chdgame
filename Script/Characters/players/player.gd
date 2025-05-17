@@ -36,9 +36,13 @@ enum Direction
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var coyote_timer: Timer = $CoyoteTimer                     # 土狼时间计时器
 @onready var jump_request_timer: Timer = $JumpRequestTimer         # 跳跃请求缓冲计时器
-@onready var status: CharacterStatus = $Status                              # 状态控制器（自定义类）
+@onready var status: Node = TransitionManagement.player_stats                            
 @onready var marker_2d: Marker2D = $Graphics/Marker2D
 @onready var damage_manager: Node = $DamageManager
+@onready var interaction_icon: AnimatedSprite2D = $InteractionIcon
+@onready var state_machine: StateMachine = $StateMachine
+@onready var pause_screen: Control = $CanvasLayer/PauseScreen
+@onready var game_over_screen: Control = $CanvasLayer/GameOverScreen
 
 # 可导出变量：移动速度与跳跃速度
 @export var move_speed: float = 50
@@ -63,6 +67,9 @@ var pass_one_way_mask: int = (1 << 0)
 
 var _mp_regen_timer := 0.0
 
+#交互属性
+var interacting_with:Array[Interactable]
+
 # 添加滑步相关变量
 var slide_speed: float = 1  # 滑步速度
 var slide_deceleration: float =-10  # 滑步减速度
@@ -82,6 +89,9 @@ func _process(delta: float) -> void:
 			
 # 每帧更新物理行为，根据当前状态调用对应的逻辑
 func tick_physics(state: State, delta: float) -> void:
+	#显示图标
+	interaction_icon.visible=not interacting_with.is_empty()
+	
 	match state:
 		State.IDLE:
 			move(default_gravity, delta)
@@ -139,7 +149,7 @@ func stand(gravity: float, delta: float) -> void:
 # 输入事件处理函数（未被UI等捕获的输入）
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("puase"):
-		get_tree().current_scene.get_node("UIManager").show_pause()
+		pause_screen.show_pause()
 	if event.is_action_pressed("jump"):
 		jump_request_timer.start()
 	# 小跳：提前松开跳跃键时减小跳跃高度
@@ -157,6 +167,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("attack")and can_combo:
 		is_combo_requester=true
+	
+	#交互事件
+	if event.is_action_pressed("interact") and interacting_with:
+		interacting_with.back().interact()
+
 
 # 状态判断函数，决定角色在下一帧的状态
 func get_next_state(state: State) -> State:
@@ -263,12 +278,13 @@ func transition_state(from: State, to: State) -> void:
 			
 		State.DYING:
 			animation_player.play("die")
+			interacting_with.clear()
 	
 	is_first_tick = true
 
 # 角色死亡处理逻辑，显示游戏结束界面
 func die() -> void:
-	get_tree().current_scene.get_node("UIManager").show_game_over()
+	game_over_screen.show_game_over()
 
 # 被敌人攻击的处理函数
 func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
@@ -276,3 +292,16 @@ func _on_hurtbox_hurt(hitbox: Hitbox) -> void:
 	damage.amount = 1
 	damage.source = hitbox.owner
 	damage_manager.add_damage(damage)
+
+#添加交互物体
+func register_interactable(v:Interactable)->void:
+	#如果已经死亡直接返回
+	if state_machine.current_state==State.DYING:
+		return
+	if v in interacting_with:
+		return
+	interacting_with.append(v)
+
+#移除交互物体
+func unregister_interactable(v:Interactable)->void:
+	interacting_with.erase(v)

@@ -7,13 +7,21 @@ extends HBoxContainer
 @onready var mana_bar: TextureProgressBar = $VBoxContainer/ManaBar
 @onready var real_mana_bar: TextureProgressBar = $VBoxContainer/ManaBar/RealManaBar
 
-func init():
-	if status:
-		status.health_changed.connect(update_health)
-		status.mp_changed.connect(update_mp)
+func _ready() -> void:
+	if not status:
+		status=TransitionManagement.player_stats
 		
-		update_health()
-		update_mp()
+	status.health_changed.connect(update_health)
+	status.mp_changed.connect(update_mp)
+		
+	update_health()
+	update_mp()
+	
+	
+	tree_exited.connect(func():
+		status.health_changed.disconnect(update_health)
+		status.mp_changed.disconnect(update_mp)
+		)
 
 func update_health():
 	var percentage := status.health / float(status.max_health)

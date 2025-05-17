@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://3tm5btwm2ww0"]
+
+[ext_resource type="Script" uid="uid://b1vty3wmawcmv" path="res://Script/Class/Teleporter.gd" id="1_ipqnn"]
+[ext_resource type="Texture2D" uid="uid://b8xt5dgyv7jpp" path="res://Assets/Tileset/Buildings.png" id="2_ipqnn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vp0pg"]
+size = Vector2(57, 63)
+
+[node name="Gate" type="Area2D"]
+script = ExtResource("1_ipqnn")
+metadata/_custom_type_script = "uid://b1vty3wmawcmv"
+
+[node name="Buildings" type="Sprite2D" parent="."]
+position = Vector2(-6, -28)
+texture = ExtResource("2_ipqnn")
+region_enabled = true
+region_rect = Rect2(272, 210, 128, 154)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7.5, -10.5)
+shape = SubResource("RectangleShape2D_vp0pg")

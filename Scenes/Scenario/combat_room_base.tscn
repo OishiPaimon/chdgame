@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://ra4xubiox3hd"]
+
+[ext_resource type="PackedScene" uid="uid://3tm5btwm2ww0" path="res://Scenes/Tool/gate.tscn" id="1_ae2qs"]
+[ext_resource type="Script" uid="uid://dnlqgg37h25i1" path="res://Script/Scenario/combat_room_base.gd" id="1_k1fqd"]
+[ext_resource type="Script" uid="uid://d01oiug0i8lk1" path="res://Script/Class/MonsterSpawnManager.gd" id="2_k1fqd"]
+[ext_resource type="PackedScene" uid="uid://dh22n8vicod8y" path="res://Scenes/Characters/Player/player.tscn" id="3_0rgei"]
+[ext_resource type="Script" uid="uid://dq0oknwdneh1i" path="res://Script/Class/EntryPoint.gd" id="5_mjd0j"]
+
+[node name="CombatRoom" type="Node2D"]
+script = ExtResource("1_k1fqd")
+
+[node name="Geometry" type="TileMapLayer" parent="."]
+
+[node name="Gate" parent="." instance=ExtResource("1_ae2qs")]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="MonsterSpawnManager" type="Node" parent="."]
+script = ExtResource("2_k1fqd")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="player" parent="." instance=ExtResource("3_0rgei")]
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+
+[node name="EntryPoint" type="Marker2D" parent="."]
+script = ExtResource("5_mjd0j")
+metadata/_custom_type_script = "uid://dq0oknwdneh1i"

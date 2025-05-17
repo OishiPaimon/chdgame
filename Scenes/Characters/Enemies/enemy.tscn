@@ -7,6 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://l6mmrsb6p8g8" path="res://Scenes/UI/enemy_status_panel.tscn" id="4_txxrn"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_rmt0q"]
+var/should_attack/name = &"should_attack"
+var/should_attack/type = 1
+var/should_attack/value = false
+var/should_attack/hint = 0
+var/should_attack/hint_string = ""
+var/need_turn/name = &"need_turn"
+var/need_turn/type = 1
+var/need_turn/value = false
+var/need_turn/hint = 0
+var/need_turn/hint_string = ""
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4

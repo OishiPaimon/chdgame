@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgtdqkp0eces6"]
+[gd_scene load_steps=6 format=3 uid="uid://bgtdqkp0eces6"]
 
 [ext_resource type="Script" uid="uid://cefqpcgjva3ev" path="res://Script/transition_management.gd" id="1_ykuoa"]
+[ext_resource type="Script" uid="uid://bneyilm2taaav" path="res://Script/Class/Status.gd" id="2_spj48"]
 
 [sub_resource type="Animation" id="Animation_85sh5"]
 resource_name = "Fade"
@@ -54,3 +55,8 @@ color = Color(0, 0, 0, 0)
 libraries = {
 &"": SubResource("AnimationLibrary_apc0u")
 }
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("2_spj48")
+max_health = 5
+metadata/_custom_type_script = "uid://bneyilm2taaav"

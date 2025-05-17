@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dh22n8vicod8y"]
+[gd_scene load_steps=34 format=3 uid="uid://dh22n8vicod8y"]
 
 [ext_resource type="Script" uid="uid://beagayevl7bir" path="res://Script/Characters/players/player.gd" id="1_dxcao"]
 [ext_resource type="PackedScene" uid="uid://k0rdc6umajvh" path="res://Scenes/Ability/Player/fireball.tscn" id="2_1mdwi"]
@@ -8,11 +8,14 @@
 [ext_resource type="Texture2D" uid="uid://su1qc0iywh53" path="res://Assets/Character/Soldier with shadows/Soldier-Attack01.png" id="6_p06rw"]
 [ext_resource type="Script" uid="uid://bpv5td7ieoad3" path="res://Script/Class/StateMachine.gd" id="6_sdxbo"]
 [ext_resource type="Texture2D" uid="uid://b2aog73js62cd" path="res://Assets/Character/Soldier with shadows/Soldier-Death.png" id="7_aencf"]
-[ext_resource type="Script" uid="uid://bneyilm2taaav" path="res://Script/Class/Status.gd" id="7_p06rw"]
 [ext_resource type="Script" uid="uid://3dihva1phvv2" path="res://Script/Class/DamageManager.gd" id="8_1mdwi"]
 [ext_resource type="Texture2D" uid="uid://bm7lhkf7b15xk" path="res://Assets/Character/Soldier with shadows/Soldier-Attack02.png" id="8_rtkie"]
 [ext_resource type="Texture2D" uid="uid://vbaeqc7qu3r8" path="res://Assets/Character/Soldier with shadows/Soldier-Hurt.png" id="9_c5nky"]
 [ext_resource type="Texture2D" uid="uid://i8030j041hm3" path="res://Assets/Character/Soldier with shadows/Soldier-Walk.png" id="10_xcbxy"]
+[ext_resource type="Texture2D" uid="uid://bl1lrjuxv2p8i" path="res://Assets/GUI/gdb-keyboard-2.png" id="14_aencf"]
+[ext_resource type="PackedScene" uid="uid://bp7fj8weot76d" path="res://Scenes/UI/status_panel.tscn" id="15_rtkie"]
+[ext_resource type="PackedScene" uid="uid://pngr2jjlvlvf" path="res://Scenes/UI/pause_screen.tscn" id="16_xcbxy"]
+[ext_resource type="PackedScene" uid="uid://bwvtwb0jnaqct" path="res://Scenes/UI/game_over_screen.tscn" id="17_7x37g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p06rw"]
 size = Vector2(50, 22)
@@ -500,6 +503,42 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gg06"]
 radius = 15.0333
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtkie"]
+atlas = ExtResource("14_aencf")
+region = Rect2(96, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5nky"]
+atlas = ExtResource("14_aencf")
+region = Rect2(96, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcbxy"]
+atlas = ExtResource("14_aencf")
+region = Rect2(96, 272, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x37g"]
+atlas = ExtResource("14_aencf")
+region = Rect2(96, 384, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pr2lv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtkie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5nky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcbxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x37g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 33
@@ -560,12 +599,23 @@ one_shot = true
 script = ExtResource("6_sdxbo")
 metadata/_custom_type_script = "uid://bpv5td7ieoad3"
 
-[node name="Status" type="Node" parent="."]
-script = ExtResource("7_p06rw")
-max_health = 5
-metadata/_custom_type_script = "uid://bneyilm2taaav"
-
 [node name="DamageManager" type="Node" parent="."]
 script = ExtResource("8_1mdwi")
+
+[node name="InteractionIcon" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -32)
+sprite_frames = SubResource("SpriteFrames_pr2lv")
+autoplay = "default"
+frame = 2
+frame_progress = 0.960704
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StatusPanel" parent="CanvasLayer" node_paths=PackedStringArray("status") instance=ExtResource("15_rtkie")]
+status = NodePath("")
+
+[node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("16_xcbxy")]
+
+[node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource("17_7x37g")]
 
 [connection signal="hurt" from="Graphics/Hurtbox" to="." method="_on_hurtbox_hurt"]
